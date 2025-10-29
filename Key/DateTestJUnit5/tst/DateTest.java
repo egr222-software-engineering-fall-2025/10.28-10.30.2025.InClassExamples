@@ -46,17 +46,42 @@ class DateTest {
         );
     }
 
-    private void addHelper(int y, int m, int d, int add, int y2, int m2, int d2) {
+    private Date addHelper(int y, int m, int d, int add,
+                           int y2, int m2, int d2) {
         Date act = new Date(y, m, d);
-        act.addDays(add);
+        addHelper(act, add, y2, m2, d2);
+//        act.addDays(add);
+//        Date exp = new Date(y2, m2, d2);
+//        assertEquals(exp, act, "after " + add + " days");
+
+        return act;
+    }
+
+    private void addHelper(Date date, int add,
+                           int y2, int m2, int d2) {
+        date.addDays(add);
         Date exp = new Date(y2, m2, d2);
-        assertEquals(exp, act, "after " + add + " days");
+        assertEquals(exp, date, "after " + add + " days");
     }
 
     @Test
     public void addDays_withinSameMonth_1() {
         // Given
-        addHelper(2050, 2, 14, 3, 2050, 2, 17);
+        addHelper(2050, 2, 15, 4, 2050, 2, 19);
+    }
+
+    @Test
+    public void addDays_wrapToNextMonth_2() {
+        // Given
+        addHelper(2050, 2, 15, 14, 2050, 3, 1);
+    }
+
+
+    @Test
+    public void addDays_multipleCalls_wrapToNextMonth2x() {
+        Date d = addHelper(2050, 2, 15, 14, 2050, 3, 1);
+        addHelper(d, 32, 2050, 4, 2);
+        addHelper(d, 98, 2050, 7, 9);
     }
 
     @Test
@@ -73,6 +98,17 @@ class DateTest {
     @Timeout(3)
     public void addDays_wrapToNextMonthInALeapYear() {
         addHelper(2052, 2, 27, 3, 2052, 3, 1);
+    }
+
+    @Test
+    public void addDate_withinSameMonth_assertAll() {
+        Date d = new  Date(2050, 2, 15);
+        d.addDays(4);
+        assertAll("Add 4 days to 2/15/2050)",
+                () -> assertEquals(19, d.getDay(), "day after adding 4 days to 2/15/2050"),
+                () -> assertEquals(2, d.getMonth(), "month after adding 4 days to 2/15/2050"),
+                () -> assertEquals(2050, d.getYear(), "year after adding 4 days to 2/15/2050")
+        );
     }
 
     @Test
