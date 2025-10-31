@@ -9,6 +9,11 @@ public class Point {
         this(0, 0);
     }
 
+    @Override
+    public int hashCode() {
+        return 31513 * x + y;
+    }
+
     //constructor 2 with parameters
     public Point(int x, int y) {
         this.x = x;

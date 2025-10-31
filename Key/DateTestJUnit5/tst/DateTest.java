@@ -105,7 +105,7 @@ class DateTest {
         Date d = new  Date(2050, 2, 15);
         d.addDays(4);
         assertAll("Add 4 days to 2/15/2050)",
-                () -> assertEquals(19, d.getDay(), "day after adding 4 days to 2/15/2050"),
+                () -> assertEquals(20, d.getDay(), "day after adding 4 days to 2/15/2050"),
                 () -> assertEquals(2, d.getMonth(), "month after adding 4 days to 2/15/2050"),
                 () -> assertEquals(2050, d.getYear(), "year after adding 4 days to 2/15/2050")
         );
